@@ -305,10 +305,13 @@ while True:
                                 for m in player.keys():
                                     if player[m][0] == p:
                                         player[m][1] = 'W'
+                                    else:
+                                        player[m][2] -= 1
                         # player 딕셔너리에 넣었던 playerName 삭제
                         Me = player[4]
                         del player[4]
                         print("게임 종료!")
+                        break
 
         def blackjack_player():
             while True:
@@ -358,20 +361,27 @@ while True:
                             for m in player.keys():
                                 if player[m][0] == p:
                                     player[m][1] = 'W'
+                                else:
+                                    player[m][2] -= 1
                     # player 딕셔너리에 넣었던 playerName 삭제
                     Me = player[4]
                     del player[4]
                     print("게임 종료!")
+                    break
+
+        if currentPlayer == turn[0]:
+            blackjack_own()
+        else:
+            blackjack_player()
         for p in player:
             if player[p][1] == 'W':
                 winner3.append(player[p][0])
             else:
                 continue
-
         if len(winner3) > 0:
             for i in range(len(winner3)):
                 print(winner3[i], end='')
-            print(" 빼고 한 잔 해~")
+                print(" 빼고 한 잔 해~")
         else:
             print("모두 한 잔 해~")
         PrintState()
