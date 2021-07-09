@@ -1,6 +1,6 @@
 import random
 
-def play(player,startplayer):
+def play(player,playerName,startplayer):
     num=1
     final=0
     playerList=[]
@@ -20,10 +20,10 @@ def play(player,startplayer):
                 count += str(num).count('6')
                 count += str(num).count('9')
 
-                if(playerList[i]==startplayer):  #내 차례!!
+                if(playerList[i]==playerName):  #내 차례!!
                     while True:
                         try:
-                            mychoice=input('{} : '.format(startplayer))
+                            mychoice=input('{} : '.format(playerName))
                             if count==0 and int(mychoice)==num:
                                 num+=1
                                 break

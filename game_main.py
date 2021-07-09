@@ -32,9 +32,9 @@ def checkWinner1(p, randomTitle, randomSinger):
         player[p][1] = 'L'
         player[p][2] -= 1
 
-
-playerList = [{'player1': ["민지", 'L', 0]}, {'player1': ["민지", 'L', 0], 'player2':["지운", 'L', 0]}, {
-    'player1': ["민지", 'L', 0], 'player2':["지운", 'L', 0], 'player3':["성은", 'L', 0]}]
+playerInfo=["민지","성은","건모","지운"]    #플레이 가능한 모든 플레이어 목록
+playerList=[]   #함께 플레이할 플레이어 이름 목록
+player=dict()   #함께 플레이할 플레이어의 정보를 담은 딕셔너리
 
 playerName = input("본인의 이름은 :")
 turn = [playerName]
@@ -64,8 +64,16 @@ while True:
 drinks *= 2
 
 playerNum = int(input("몇 명과 대결을 하시겠어요? (사회적 거리두기로 인해서 최대 3명을 초대할 수 있습니다) :"))
+for i in range(playerNum):
+    if playerName!=playerInfo[i] and playerInfo[i] not in playerList:
+        playerList.append(playerInfo[i])
+    else:
+        playerList.append(playerInfo[i+1])
 
-player = playerList[playerNum - 1]
+for i in range(len(playerList)):
+        player['player{}'.format(i+1)] = [playerList[i],'L',0]
+
+print(player, playerName)
 Me = [playerName, 'L', drinks]
 
 
@@ -173,7 +181,8 @@ while True:
         continue
 
     elif choice == 2:
-        loser_369 = mini_369.play(player,startplayer=turn[turn_num % 4])
+        startplayer = turn[turn_num % 4]
+        loser_369 = mini_369.play(player,playerName,startplayer)
         print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser_369))
         print("술이 들어간다! 쭉!쭉쭉쭉쭉~~쭉!쭉쭉쭉쭉~~ 언제까지 어깨 춤을 추게 할거야~~ 내 어깨를 봐~~ 탈골 됐자나~~~")
         for p in player.keys():
