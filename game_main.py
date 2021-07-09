@@ -182,7 +182,7 @@ while True:
 
         print("정답은?? ★☆  {0} ☆★\n".format(songList[randomTitle]))
 
-        if SequenceMatcher(None, answer, songList[randomTitle]).ratio() >= 0.25:
+        if SequenceMatcher(None, answer, songList[randomTitle]).ratio() >= 0.3:
             print("ᕦ( ᐛ )ᕡ  성공 ♪~ ᕕ( ᐛ )ᕗ")
             Me[1] = 'W'
             winner1.append(playerName)
