@@ -101,6 +101,7 @@ PrintState()
 currentPlayer = playerName
 turn_num = -1
 while True:
+    winner3 = []
     turn_num += 1
     turn_num = turn_num % len(turn)
     flag = False
@@ -379,8 +380,10 @@ while True:
                     break
 
         if turn[turn_num] == playerName:
+            winner3 = []
             blackjack_own()
         else:
+            winner3 = []
             blackjack_player()
 
         if len(winner3) > 0:
@@ -394,6 +397,7 @@ while True:
         for p in player.keys():
             player[p][1] == 'L'
         Me[1] = 'L'
+        # print(winner3)
         continue
     elif choice == 4:
         loser = subway.subwayGamestart(
