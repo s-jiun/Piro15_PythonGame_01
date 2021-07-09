@@ -110,7 +110,7 @@ while True:
             print("!!!!!사람이 죽었어요_!!!!!:(´ཀ`」∠):_")
             print("{0}님이 치사량에 도달했어요!｡°(°°᷄◠°᷅°)°｡".format(player[p][0]))
             print("+++++++++++++++++++++++++++++++++++++++++++++++++++")
-            print("   한 명이 만취했습니다. 술자리를 파하겠습니다.")
+            print("   술자리를 파하겠습니다.")
             print("+++++++++++++++++++++++++++++++++++++++++++++++++++")
             flag = True
     if Me[2] == 0:
@@ -393,6 +393,7 @@ while True:
         winner3.clear()
         for p in player.keys():
             player[p][1] == 'L'
+        Me[1] = 'L'
         continue
     elif choice == 4:
         loser = subway.subwayGamestart(
