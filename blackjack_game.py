@@ -108,7 +108,6 @@ def blackjack_own():
                 # player 딕셔너리에 넣었던 playerName 삭제
                 Me = player[4]
                 del player[4]
-                print(Me)
                 print("게임 종료!")
 
 
@@ -161,5 +160,4 @@ def blackjack_player():
             # player 딕셔너리에 넣었던 playerName 삭제
             Me = player[4]
             del player[4]
-            print(Me)
             print("게임 종료!")
