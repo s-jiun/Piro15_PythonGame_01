@@ -378,7 +378,7 @@ while True:
         continue
     elif choice == 4:
         loser = subway.subwayGamestart(
-            player, playerName, startplayer=turn[turn_num])
+            player, playerName, startplayer=turn[turn_num % 4])
         print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser))
         for p in player.keys():
             if loser in player[p]:
