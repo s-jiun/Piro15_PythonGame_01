@@ -121,9 +121,9 @@ while True:
     if turn[turn_num] == playerName:
         choice = int(input("당신의 차례입니다. 게임을 골라주세요 : "))
     else:
-        # choice = random.randint(1, 4)
+        choice = random.randint(1, 4)
         #####369 test####
-        choice = 2
+        # choice = 2
         print("{0}의 차례입니다. {0}은 {1}번을 골랐습니다.".format(
             turn[turn_num], choice))
     if choice == 1:
