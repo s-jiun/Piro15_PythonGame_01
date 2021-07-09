@@ -364,7 +364,7 @@ while True:
                     print("게임 종료!")
                     break
 
-        if currentPlayer == turn[0]:
+        if turn[turn_num] == playerName:
             blackjack_own()
         else:
             blackjack_player()
@@ -376,6 +376,7 @@ while True:
         else:
             print("모두 한 잔 해~ ♡°⌒(⭒ᵔ દ ᵔ⭒)ノ")
         PrintState()
+        winner3.clear()
         continue
     elif choice == 4:
         loser = subway.subwayGamestart(
