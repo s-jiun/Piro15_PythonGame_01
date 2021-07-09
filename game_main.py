@@ -32,9 +32,10 @@ def checkWinner1(p, randomTitle, randomSinger):
         player[p][1] = 'L'
         player[p][2] -= 1
 
-playerInfo=["민지","성은","건모","지운"]    #플레이 가능한 모든 플레이어 목록
-playerList=[]   #함께 플레이할 플레이어 이름 목록
-player=dict()   #함께 플레이할 플레이어의 정보를 담은 딕셔너리
+
+playerInfo = ["민지", "성은", "건모", "지운"]  # 플레이 가능한 모든 플레이어 목록
+playerList = []  # 함께 플레이할 플레이어 이름 목록
+player = dict()  # 함께 플레이할 플레이어의 정보를 담은 딕셔너리
 
 playerName = input("본인의 이름은 :")
 turn = [playerName]
@@ -63,17 +64,23 @@ while True:
 
 drinks *= 2
 
-playerNum = int(input("몇 명과 대결을 하시겠어요? (사회적 거리두기로 인해서 최대 3명을 초대할 수 있습니다) :"))
+while True:
+    playerNum = int(
+        input("몇 명과 대결을 하시겠어요? (사회적 거리두기로 인해서 최대 3명을 초대할 수 있습니다) :"))
+    if playerNum > 3:
+        print("최대 3명까지 초대할 수 있어요!")
+    else:
+        break
 for i in range(playerNum):
-    if playerName!=playerInfo[i] and playerInfo[i] not in playerList:
+    if playerName != playerInfo[i] and playerInfo[i] not in playerList:
         playerList.append(playerInfo[i])
     else:
         playerList.append(playerInfo[i+1])
 
 for i in range(len(playerList)):
-        player['player{}'.format(i+1)] = [playerList[i],'L',0]
+    player['player{}'.format(i+1)] = [playerList[i], 'L', 0]
 
-print(player, playerName)
+# print(player, playerName)
 Me = [playerName, 'L', drinks]
 
 
@@ -92,18 +99,33 @@ currentPlayer = playerName
 turn_num = -1
 while True:
     turn_num += 1
+    turn_num = turn_num % len(turn)
+    flag = False
+    for p in player.keys():
+        if player[p][2] == 0:
+            print("사람이 죽었어요!")
+            print("{0}님이 치사량에 도달했어요!".format(player[p][0]))
+            flag = True
+    if Me[2] == 0:
+        print("사람이 죽었어요!")
+        print("{0}님이 치사량에 도달했어요!".format(playerName))
+        flag = True
+    if flag:
+        break
     print("   ----------- 게임 리스트 -----------   ")
     print("1. 가수 맞추기")
     print("2. 369 게임")
     print("3. 블랙잭 게임")
     print("4. 지하철 게임")
     print()
-    if turn[turn_num % 4] == playerName:
+    if turn[turn_num] == playerName:
         choice = int(input("당신의 차례입니다. 게임을 골라주세요 : "))
     else:
-        choice = random.randint(1, 4)
+        # choice = random.randint(1, 4)
+        #####369 test####
+        choice = 2
         print("{0}의 차례입니다. {0}은 {1}번을 골랐습니다.".format(
-            turn[turn_num % 4], choice))
+            turn[turn_num], choice))
     if choice == 1:
         header = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
@@ -181,8 +203,8 @@ while True:
         continue
 
     elif choice == 2:
-        startplayer = turn[turn_num % 4]
-        loser_369 = mini_369.play(player,playerName,startplayer)
+        startplayer = turn[turn_num]
+        loser_369 = mini_369.play(player, playerName, startplayer)
         print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser_369))
         print("술이 들어간다! 쭉!쭉쭉쭉쭉~~쭉!쭉쭉쭉쭉~~ 언제까지 어깨 춤을 추게 할거야~~ 내 어깨를 봐~~ 탈골 됐자나~~~")
         for p in player.keys():
@@ -275,7 +297,6 @@ while True:
                         print("게임 종료!")
                         break
 
-
         def blackjack_player():
             while True:
                 card_num = random.randint(2, 4)
@@ -336,7 +357,6 @@ while True:
                     print("게임 종료!")
                     break
 
-
         if currentPlayer == turn[0]:
             blackjack_own()
         else:
@@ -352,7 +372,7 @@ while True:
         continue
     elif choice == 4:
         loser = subway.subwayGamestart(
-            player, playerName, startplayer=turn[turn_num % 4])
+            player, playerName, startplayer=turn[turn_num])
         print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser))
         for p in player.keys():
             if loser in player[p]:

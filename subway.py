@@ -94,7 +94,7 @@ def subwayGamestart(player, player_name, startplayer):
                 print("{0} : {1}".format(member[turn], fail_ans))
                 print("틀렸습니다!",  end="\n\n\n")
                 return member[turn]
-            elif prob <= 30:
+            elif prob <= 30 and len(ans_list) > 0:
                 fail_ans = ans_list[random.randint(0, len(ans_list)-1)]
                 print("{0} : {1}".format(member[turn], fail_ans))
                 print("이미 말했습니다!", end="\n\n\n")
