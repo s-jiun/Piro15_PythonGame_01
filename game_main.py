@@ -32,10 +32,6 @@ def checkWinner1(p, randomTitle, randomSinger):
         player[p][2] -= 1
 
 
-def Turn(currentPlayer):
-    currentPlayer = turn[turn.index(currentPlayer) + 1]
-
-
 playerList = [{'player1': ["민지", 'L', 0]}, {'player1': ["민지", 'L', 0], 'player2':["지운", 'L', 0]}, {
     'player1': ["민지", 'L', 0], 'player2':["지운", 'L', 0], 'player3':["성은", 'L', 0]}]
 
@@ -71,6 +67,7 @@ playerNum = int(input("몇 명과 대결을 하시겠어요? (사회적 거리�
 player = playerList[playerNum - 1]
 Me = [playerName, 'L', drinks]
 
+
 for p in player:
     turn.append(player[p][0])
 
@@ -83,19 +80,21 @@ for p in player.keys():
 PrintState()
 
 currentPlayer = playerName
-
+turn_num = -1
 while True:
+    turn_num += 1
     print("   ----------- 게임 리스트 -----------   ")
     print("1. 가수 맞추기")
     print("2. 369 게임")
     print("3. 블랙잭 게임")
     print("4. 지하철 게임")
     print()
-    if currentPlayer == turn[0]:
+    if turn[turn_num % 4] == playerName:
         choice = int(input("당신의 차례입니다. 게임을 골라주세요 : "))
     else:
-        choice = int(input("{0}의 차례입니다. {0}은 {1}번을 골랐습니다.".format(
-            currentPlayer, random.randint(1, 4))))
+        choice = random.randint(1, 4)
+        print("{0}의 차례입니다. {0}은 {1}번을 골랐습니다.".format(
+            turn[turn_num % 4], choice))
     if choice == 1:
         header = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
@@ -169,7 +168,6 @@ while True:
             print(" 빼고 한 잔 해~")
         else:
             print("모두 한 잔 해~")
-        Turn(currentPlayer)
         PrintState()
         continue
 
@@ -234,7 +232,6 @@ while True:
             print(" 빼고 한 잔 해~")
         else:
             print("모두 한 잔 해~")
-        Turn(currentPlayer)
         PrintState()
         continue
     elif choice == 3:
@@ -308,10 +305,13 @@ while True:
                                 for m in player.keys():
                                     if player[m][0] == p:
                                         player[m][1] = 'W'
+                                    else:
+                                        player[m][2] -= 1
                         # player 딕셔너리에 넣었던 playerName 삭제
                         Me = player[4]
                         del player[4]
                         print("게임 종료!")
+                        break
 
         def blackjack_player():
             while True:
@@ -361,35 +361,40 @@ while True:
                             for m in player.keys():
                                 if player[m][0] == p:
                                     player[m][1] = 'W'
+                                else:
+                                    player[m][2] -= 1
                     # player 딕셔너리에 넣었던 playerName 삭제
                     Me = player[4]
                     del player[4]
                     print("게임 종료!")
+                    break
+
+        if currentPlayer == turn[0]:
+            blackjack_own()
+        else:
+            blackjack_player()
         for p in player:
             if player[p][1] == 'W':
                 winner3.append(player[p][0])
             else:
                 continue
-
         if len(winner3) > 0:
             for i in range(len(winner3)):
                 print(winner3[i], end='')
-            print(" 빼고 한 잔 해~")
+                print(" 빼고 한 잔 해~")
         else:
             print("모두 한 잔 해~")
-        Turn(currentPlayer)
         PrintState()
         continue
     elif choice == 4:
         loser = subway.subwayGamestart(
-            player, playerName, startplayer=currentPlayer)
+            player, playerName, startplayer=turn[turn_num % 4])
         print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser))
         for p in player.keys():
             if loser in player[p]:
                 player[p][2] -= 1
-        Turn(currentPlayer)
+        if loser == playerName:
+            Me[2] -= 1
         PrintState()
-
-        continue
     else:
         raise InputError
