@@ -217,7 +217,7 @@ while True:
             player[p][1] == 'L'
 
         Me[1] = 'L'
-        
+
         continue
 
     elif choice == 2:
@@ -391,11 +391,14 @@ while True:
             print("모두 한 잔 해~ ♡°⌒(⭒ᵔ દ ᵔ⭒)ノ")
         PrintState()
         winner3.clear()
+        for p in player.keys():
+            player[p][1] == 'L'
         continue
     elif choice == 4:
         loser = subway.subwayGamestart(
             player, playerName, startplayer=turn[turn_num])
-        print("(∩ ͡° ͜ʖ ͡°)⊃━✿✿✿✿✿✿ {0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser))
+        print(
+            "(∩ ͡° ͜ʖ ͡°)⊃━✿✿✿✿✿✿ {0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser))
         for p in player.keys():
             if loser in player[p]:
                 player[p][2] -= 1
