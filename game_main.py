@@ -8,7 +8,7 @@ import mini_369
 
 class InputError(Exception):
     def __init__(self):
-        super().__init__("저기요... 벌써 취하신건 아니죠...? ๑őεő๑ ")
+        super().__init__("저기요... 벌써 취하신건 아니죠...? Σ٩(๑º ﾛ º๑)۶")
 
 
 def PrintState():
@@ -36,15 +36,17 @@ def checkWinner1(p, randomTitle, randomSinger):
 playerInfo = ["민지", "성은", "건모", "지운"]  # 플레이 가능한 모든 플레이어 목록
 playerList = []  # 함께 플레이할 플레이어 이름 목록
 player = dict()  # 함께 플레이할 플레이어의 정보를 담은 딕셔너리
-
+print("=======================================================")
+print("✧*✧･ﾟ:* *:･ﾟ✧*:･ﾟ✧ 혼자하는 술 게임 스타트! ✧･ﾟ: *✧･ﾟ:* *:･ﾟ✧*")
+print()
 playerName = input("본인의 이름은 :")
 turn = [playerName]
 print()
 print("=======================================================")
 
-print("              본인의 주량을 선택해주세요")
+print("              본인의 주량을 선택해주세요!")
 print()
-print("              소주 1병은 4잔 입니다")
+print("               소주 1병은 4잔 입니다")
 print()
 print("1. 반 병")
 print("2. 반 병에서 한 병")
@@ -103,16 +105,18 @@ while True:
     flag = False
     for p in player.keys():
         if player[p][2] == 0:
-            print("사람이 죽었어요!")
-            print("{0}님이 치사량에 도달했어요!".format(player[p][0]))
+            print(' ︵‿︵‿︵‿︵‿︵‿︵‿︵‿︵‿︵‿ヽ(゜□゜ )ノ︵‿︵‿︵‿︵‿︵‿')
+            print("!!!!!사람이 죽었어요_!!!!!:(´ཀ`」∠):_")
+            print("{0}님이 치사량에 도달했어요!｡°(°°᷄◠°᷅°)°｡".format(player[p][0]))
             flag = True
     if Me[2] == 0:
-        print("사람이 죽었어요!")
-        print("{0}님이 치사량에 도달했어요!".format(playerName))
+        print(' ︵‿︵‿︵‿︵‿︵‿︵‿︵‿︵‿︵‿ヽ(゜□゜ )ノ︵‿︵‿︵‿︵‿︵‿')
+        print("!!!!!사람이 죽었어요_!!!!!:(´ཀ`」∠):_")
+        print("{0}님이 치사량에 도달했어요!｡°(°°᷄◠°᷅°)°｡".format(playerName))
         flag = True
     if flag:
         break
-    print("   ----------- 게임 리스트 -----------   ")
+    print(" ****** ----------- 게임 리스트 ----------- ****** ")
     print("1. 가수 맞추기")
     print("2. 369 게임")
     print("3. 블랙잭 게임")
@@ -172,20 +176,20 @@ while True:
         print("정답은?? ★☆  {0} ☆★\n".format(songList[randomTitle]))
 
         if SequenceMatcher(None, answer, songList[randomTitle]).ratio() >= 0.3:
-            print("ᕕ( ᐛ )ᕗ  성공~ ᕕ( ᐛ )ᕗ")
+            print("ᕦ( ᐛ )ᕡ  성공 ♪~ ᕕ( ᐛ )ᕗ")
             Me[1] = 'W'
             winner1.append(playerName)
         else:
-            print(" ( ˃̣̣̥᷄⌓˂̣̣̥᷅ )  실패..  ( ˃̣̣̥᷄⌓˂̣̣̥᷅ ) ")
+            print("(╯•﹏•╰) 실패.. (╯•﹏•╰)")
             Me[1] = 'L'
             Me[2] -= 1
 
         print()
         for p in player.keys():
             if player[p][1] == 'L':
-                print("{0} 실패..  (｡•́︿•̀｡) ".format(player[p][0]))
+                print("{0} 실패.. (((( ;°Д°))))".format(player[p][0]))
             else:
-                print("{0} 성공~ ٩(ˊᗜˋ*)و ".format(player[p][0]))
+                print("{0} 성공~ ˚✧₊⁎( ˘ω˘ )⁎⁺˳✧༚".format(player[p][0]))
 
         for p in player:
             if player[p][1] == 'W':
@@ -196,9 +200,9 @@ while True:
         if len(winner1) > 0:
             for i in range(len(winner1)):
                 print(winner1[i], end='')
-            print(" 빼고 한 잔 해~")
+            print(" 빼고 한 잔 해~ (╭☞ ͡ ͡° ͜ ʖ ͡ ͡°)╭☞")
         else:
-            print("모두 한 잔 해~")
+            print("모두 한 잔 해~ ♡°⌒(⭒ᵔ દ ᵔ⭒)ノ")
         PrintState()
         continue
 
@@ -206,7 +210,10 @@ while True:
         startplayer = turn[turn_num]
         loser_369 = mini_369.play(player, playerName, startplayer)
         print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser_369))
-        print("술이 들어간다! 쭉!쭉쭉쭉쭉~~쭉!쭉쭉쭉쭉~~ 언제까지 어깨 춤을 추게 할거야~~ 내 어깨를 봐~~ 탈골 됐자나~~~")
+        print()
+        print("마셔라마셔라! 마셔라마셔라! 술이 들어간다! 쭉!쭉쭉쭉쭉~~쭉!쭉쭉쭉쭉~~ ヾ( ͝° ͜ʖ͡°)ノ♪")
+        print("ƪ(˘⌣˘)┐ 언제까지 어깨 춤을 추게 할거야~~ 내 어깨를 봐~~ 탈골 됐자나~~~ ┌(˘⌣˘)ʃ")
+        print()
         for p in player.keys():
             if loser_369 in player[p]:
                 player[p][2] -= 1
@@ -365,15 +372,15 @@ while True:
         if len(winner3) > 0:
             for i in range(len(winner3)):
                 print(winner3[i], end='')
-                print(" 빼고 한 잔 해~")
+                print(" 빼고 한 잔 해~ (╭☞ ͡ ͡° ͜ ʖ ͡ ͡°)╭☞")
         else:
-            print("모두 한 잔 해~")
+            print("모두 한 잔 해~ ♡°⌒(⭒ᵔ દ ᵔ⭒)ノ")
         PrintState()
         continue
     elif choice == 4:
         loser = subway.subwayGamestart(
             player, playerName, startplayer=turn[turn_num])
-        print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser))
+        print("(∩ ͡° ͜ʖ ͡°)⊃━✿✿✿✿✿✿ {0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser))
         for p in player.keys():
             if loser in player[p]:
                 player[p][2] -= 1
@@ -381,5 +388,5 @@ while True:
             Me[2] -= 1
         PrintState()
     else:
-        print("저기요... 벌써 취하신건 아니죠...? ๑őεő๑ ")
+        print("저기요... 벌써 취하신건 아니죠...? Σ٩(๑º ﾛ º๑)۶")
         continue
