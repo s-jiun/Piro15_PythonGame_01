@@ -35,7 +35,7 @@ def subwayGamestart(player, player_name, startplayer):
     for p in player.keys():
         computer.append(player[p][0])
     print("지하철 게임을 시작합니다!")
-    if startplayer in computer:
+    if startplayer != player_name:
         rail_num = random.randint(1, 9)
         print("몇호선을 고르시겠습니까?(1~9호선) > ", rail_num)
     else:
