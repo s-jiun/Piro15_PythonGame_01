@@ -110,7 +110,6 @@ def blackjack_own():
                 del player[4]
                 print(Me)
                 print("게임 종료!")
-                exit()
 
 
 def blackjack_player():
@@ -164,7 +163,3 @@ def blackjack_player():
             del player[4]
             print(Me)
             print("게임 종료!")
-            exit()
-
-
-blackjack_own()
