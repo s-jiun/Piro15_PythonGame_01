@@ -73,6 +73,7 @@ while True:
         print("최대 3명까지 초대할 수 있어요!")
     else:
         break
+print()
 for i in range(playerNum):
     if playerName != playerInfo[i] and playerInfo[i] not in playerList:
         playerList.append(playerInfo[i])
@@ -108,11 +109,17 @@ while True:
             print(' ︵‿︵‿︵‿︵‿︵‿︵‿︵‿︵‿︵‿ヽ(゜□゜ )ノ︵‿︵‿︵‿︵‿︵‿')
             print("!!!!!사람이 죽었어요_!!!!!:(´ཀ`」∠):_")
             print("{0}님이 치사량에 도달했어요!｡°(°°᷄◠°᷅°)°｡".format(player[p][0]))
+            print("+++++++++++++++++++++++++++++++++++++++++++++++++++")
+            print("   한 명이 만취했습니다. 술자리를 파하겠습니다.")
+            print("+++++++++++++++++++++++++++++++++++++++++++++++++++")
             flag = True
     if Me[2] == 0:
         print(' ︵‿︵‿︵‿︵‿︵‿︵‿︵‿︵‿︵‿ヽ(゜□゜ )ノ︵‿︵‿︵‿︵‿︵‿')
         print("!!!!!사람이 죽었어요_!!!!!:(´ཀ`」∠):_")
         print("{0}님이 치사량에 도달했어요!｡°(°°᷄◠°᷅°)°｡".format(playerName))
+        print("+++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("   한 명이 만취했습니다. 술자리를 파하겠습니다.")
+        print("+++++++++++++++++++++++++++++++++++++++++++++++++++")
         flag = True
     if flag:
         break
@@ -175,7 +182,7 @@ while True:
 
         print("정답은?? ★☆  {0} ☆★\n".format(songList[randomTitle]))
 
-        if SequenceMatcher(None, answer, songList[randomTitle]).ratio() >= 0.3:
+        if SequenceMatcher(None, answer, songList[randomTitle]).ratio() >= 0.25:
             print("ᕦ( ᐛ )ᕡ  성공 ♪~ ᕕ( ᐛ )ᕗ")
             Me[1] = 'W'
             winner1.append(playerName)
@@ -204,6 +211,13 @@ while True:
         else:
             print("모두 한 잔 해~ ♡°⌒(⭒ᵔ દ ᵔ⭒)ノ")
         PrintState()
+        winner1.clear()
+
+        for p in player.keys():
+            player[p][1] == 'L'
+
+        Me[1] = 'L'
+        
         continue
 
     elif choice == 2:
