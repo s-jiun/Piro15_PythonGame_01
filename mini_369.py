@@ -7,8 +7,12 @@ def play(player,playerName,startplayer):
     loser=''
 
     playerList.append(startplayer)
+    if(startplayer!=playerName):
+        playerList.append(playerName)
     for p in player.keys():
-        playerList.append(player[p][0])
+        if (player[p][0] not in playerList):
+            playerList.append(player[p][0])
+
     print('삼~육구 삼육구~! 삼~육구 삼육구~! ')
     while True:
         if final==0:
