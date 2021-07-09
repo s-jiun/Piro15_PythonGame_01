@@ -93,6 +93,7 @@ def blackjack_own():
             # 모든 플레이어의 카드 숫자 합이 21이 넘을 경우 다시 시작
             if len(blackjack_result) == 0:
                 print("모든 참가자의 카드 숫자 합이 21이 넘어 다시 시작합니다! 렛츠기릿.")
+                playing_card.clear()
                 continue
             # 이상이 없을 경우 우승자 결정. 공동 우승 가능.
             else:
@@ -101,7 +102,11 @@ def blackjack_own():
                     if playing_card[p][card_num] == blackjack_result[0]:
                         print("❀❀❀❀❀{0}(이)가 숫자 합 {1}으로 이겼습니다!❀❀❀❀❀".format(
                             p, blackjack_result[0]))
+                        for m in player.keys():
+                            if player[m][0] == p:
+                                player[m][1] = 'W'
                 # player 딕셔너리에 넣었던 playerName 삭제
+                Me = player[4]
                 del player[4]
                 print("게임 종료!")
 
@@ -140,6 +145,7 @@ def blackjack_player():
         # 모든 플레이어의 카드 숫자 합이 21이 넘을 경우 다시 시작
         if len(blackjack_result) == 0:
             print("모든 참가자의 카드 숫자 합이 21이 넘어 다시 시작합니다! 렛츠기릿.")
+            playing_card.clear()
             continue
         # 이상이 없을 경우 우승자 결정. 공동 우승 가능.
         else:
@@ -148,6 +154,10 @@ def blackjack_player():
                 if playing_card[p][card_num] == blackjack_result[0]:
                     print("❀❀❀❀❀{0}(이)가 숫자 합 {1}으로 이겼습니다!❀❀❀❀❀".format(
                         p, blackjack_result[0]))
+                    for m in player.keys():
+                        if player[m][0] == p:
+                            player[m][1] = 'W'
             # player 딕셔너리에 넣었던 playerName 삭제
+            Me = player[4]
             del player[4]
             print("게임 종료!")
