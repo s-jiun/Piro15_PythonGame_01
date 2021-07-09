@@ -1,47 +1,60 @@
 import random
+
 def mini_369(player):
     num=1
     final=0
     playerList=[]
+    loser=''
     for p in player.keys():
         playerList.append(player[p][0])
-    print('369게임 시작!')
+    print('삼~육구 삼육구~! 삼~육구 삼육구~! ')
     while True:
-        for i in range(len(playerList)):
+        if final==0:
+            for i in range(len(playerList)):
 
-            choice = random.randint(1, 2)
-            count = 0
-            count += str(num).count('3')
-            count += str(num).count('6')
-            count += str(num).count('9')
+                choice = random.randint(1, 2)
+                count = 0
+                count += str(num).count('3')
+                count += str(num).count('6')
+                count += str(num).count('9')
 
-            if(playerList[i]==playerName):  #내 차례!!
-                mychoice=input('{} : '.format(playerName))
-                if count==0 and int(mychoice)==num:
-                    num+=1
-                    break
-                elif count==0 and int(mychoice)!=num:
-                    loser=playerList[i]
-                    final = 1
-                    break
-                elif count>=1 and mychoice.count('짝')==count:
-                    num+=1
-                    break
-                else:
-                    loser = playerList[i]
-                    final = 1
-                    break
-            else:   #다른 사람 차례
-                if count==0:
-                    print(playerList[i],': ',num)
-                else:
-                    print(playerList[i],': ','짝!'*choice)
-                    if choice!=count:
-                        final=1
-                        loser=playerList[i]
+                if(playerList[i]==playerName):  #내 차례!!
+                    while True:
+                        try:
+                            mychoice=input('{} : '.format(playerName))
+                            if count==0 and int(mychoice)==num:
+                                num+=1
+                                break
+                            elif count==0 and int(mychoice)!=num:
+                                loser=playerList[i]
+                                final = 1
+                                break
+                            elif count>=1 and mychoice.count('짝')==count:
+                                num+=1
+                                break
+                            else:
+                                loser = playerList[i]
+                                final = 1
+                                break
+                        except ValueError:
+                            print('정수를 입력하세요 ! !')
+                    if(loser==playerList):
                         break
-            num+=1
-        if final==1:
+                else:   #다른 사람 차례
+                    if count==0:
+                        print(playerList[i],': ',num)
+                    else:
+                        print(playerList[i],': ','짝!'*choice)
+                        if choice!=count:
+                            final=1
+                            loser=playerList[i]
+                            break
+                    num+=1
+                if final == 1:
+                    break
+                else:
+                    continue
+        elif final==1:
             break
     print(loser, ' 벌주 당첨!')
     return loser
@@ -60,6 +73,7 @@ print(player)
 for p in player.keys():
     player[p][2] = drinks
 
+#----------------게임 실행-------------------
 loser_369=mini_369(player)
 print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser_369))
 for p in player.keys():
