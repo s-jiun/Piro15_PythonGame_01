@@ -11,7 +11,7 @@ def checkWinner(p, randomTitle, randomSinger):
         player[p][1] = 'L'
         player[p][2] -= 1
         
-winner =[]
+winner1 =[]
 playerList = [{'player1':["민지",'L', 0]},{'player1':["민지", 'L', 0], 'player2':["지운", 'L', 0]}, {'player1':["민지", 'L', 0], 'player2':["지운", 'L', 0], 'player3':["성은", 'L', 0]}]
 
 playerName = input("본인의 이름은 :")
@@ -90,7 +90,7 @@ print("정답은?? ★☆  {0} ☆★\n".format(songList[randomTitle]))
 if SequenceMatcher(None, answer, songList[randomTitle]).ratio() >= 0.3:
     print("ᕕ( ᐛ )ᕗ  성공~ ᕕ( ᐛ )ᕗ")
     Me[1] = 'W'
-    winner.append(playerName)
+    winner1.append(playerName)
 else:
     print(" ( ˃̣̣̥᷄⌓˂̣̣̥᷅ )  실패..  ( ˃̣̣̥᷄⌓˂̣̣̥᷅ ) ")
     Me[1] = 'L'
@@ -105,13 +105,13 @@ for p in player.keys():
 
 for p in player:
     if player[p][1] == 'W':
-        winner.append(player[p][0])
+        winner1.append(player[p][0])
     else:
         continue
 
-if len(winner) > 0:
-    for i in range(len(winner)):
-        print(winner[i], end='')
+if len(winner1) > 0:
+    for i in range(len(winner1)):
+        print(winner1[i], end='')
     print(" 빼고 한 잔 해~")
 else:
     print("모두 한 잔 해~")
