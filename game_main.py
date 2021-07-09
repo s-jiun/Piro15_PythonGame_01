@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import random
 from difflib import SequenceMatcher
 import subway
+import mini_369
 
 
 class InputError(Exception):
@@ -30,67 +31,6 @@ def checkWinner1(p, randomTitle, randomSinger):
     else:
         player[p][1] = 'L'
         player[p][2] -= 1
-
-
-def mini_369(player):
-    num=1
-    final=0
-    playerList=[]
-    loser=''
-    playerList.append(playerName)
-    for p in player.keys():
-        playerList.append(player[p][0])
-    print('삼~육구 삼육구~! 삼~육구 삼육구~! ')
-    while True:
-        if final==0:
-            for i in range(len(playerList)):
-
-                choice = random.randint(1, 2)
-                count = 0
-                count += str(num).count('3')
-                count += str(num).count('6')
-                count += str(num).count('9')
-
-                if(playerList[i]==playerName):  #내 차례!!
-                    while True:
-                        try:
-                            mychoice=input('{} : '.format(playerName))
-                            if count==0 and int(mychoice)==num:
-                                num+=1
-                                break
-                            elif count==0 and int(mychoice)!=num:
-                                loser=playerList[i]
-                                final = 1
-                                break
-                            elif count>=1 and mychoice.count('짝')==count:
-                                num+=1
-                                break
-                            else:
-                                loser = playerList[i]
-                                final = 1
-                                break
-                        except ValueError:
-                            print('정수를 입력하세요 ! !')
-                    if(loser==playerList):
-                        break
-                else:   #다른 사람 차례
-                    if count==0:
-                        print(playerList[i],': ',num)
-                    else:
-                        print(playerList[i],': ','짝!'*choice)
-                        if choice!=count:
-                            final=1
-                            loser=playerList[i]
-                            break
-                    num+=1
-                if final == 1:
-                    break
-                else:
-                    continue
-        elif final==1:
-            break
-    print(loser, ' 벌주 당첨!')
-    return loser
 
 
 playerList = [{'player1': ["민지", 'L', 0]}, {'player1': ["민지", 'L', 0], 'player2':["지운", 'L', 0]}, {
@@ -233,29 +173,14 @@ while True:
         continue
 
     elif choice == 2:
-        loser_369 = mini_369(player)
+        loser_369 = mini_369.play(player,startplayer=turn[turn_num % 4])
         print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser_369))
         print("술이 들어간다! 쭉!쭉쭉쭉쭉~~쭉!쭉쭉쭉쭉~~ 언제까지 어깨 춤을 추게 할거야~~ 내 어깨를 봐~~ 탈골 됐자나~~~")
         for p in player.keys():
             if loser_369 in player[p]:
                 player[p][2] -= 1
-
-        # winner4 = []
-        #
-        # for p in player:
-        #     if player[p][1] == 'W':
-        #         winner4.append(player[p][0])
-        #     else:
-        #         continue
-        #
-        # if len(winner4) > 0:
-        #     for i in range(len(winner4)):
-        #         print(winner4[i], end='')
-        #     print(" 빼고 한 잔 해~")
-        # else:
-        #     print("모두 한 잔 해~")
-
-        Turn(currentPlayer)
+        if loser_369 == playerName:
+            Me[2] -= 1
         PrintState()
         continue
     elif choice == 3:
@@ -329,13 +254,18 @@ while True:
                                 for m in player.keys():
                                     if player[m][0] == p:
                                         player[m][1] = 'W'
-                                    else:
-                                        player[m][2] -= 1
+                        for p in player:
+                            if player[p][1] == 'W':
+                                winner3.append(player[p][0])
+                            else:
+                                player[p][2] -= 1
+                                continue
                         # player 딕셔너리에 넣었던 playerName 삭제
                         Me = player[4]
                         del player[4]
                         print("게임 종료!")
                         break
+
 
         def blackjack_player():
             while True:
@@ -385,23 +315,24 @@ while True:
                             for m in player.keys():
                                 if player[m][0] == p:
                                     player[m][1] = 'W'
-                                else:
-                                    player[m][2] -= 1
+                    for p in player:
+                        if player[p][1] == 'W':
+                            winner3.append(player[p][0])
+                        else:
+                            player[p][2] -= 1
+                            continue
                     # player 딕셔너리에 넣었던 playerName 삭제
                     Me = player[4]
                     del player[4]
                     print("게임 종료!")
                     break
 
+
         if currentPlayer == turn[0]:
             blackjack_own()
         else:
             blackjack_player()
-        for p in player:
-            if player[p][1] == 'W':
-                winner3.append(player[p][0])
-            else:
-                continue
+
         if len(winner3) > 0:
             for i in range(len(winner3)):
                 print(winner3[i], end='')
@@ -421,4 +352,5 @@ while True:
             Me[2] -= 1
         PrintState()
     else:
-        raise InputError
+        print("저기요... 벌써 취하신건 아니죠...? ๑őεő๑ ")
+        continue
