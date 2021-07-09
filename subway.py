@@ -64,7 +64,9 @@ def subwayGamestart(player, player_name, startplayer):
                 ans = input("{0} : ".format(player_name))
                 hangul = re.compile('^[가-힣]+$')
                 m = hangul.match(ans)
-                if m:
+                if not '역' in ans:
+                    print("역을 붙여주세요!")
+                elif m:
                     break
                 else:
                     print("취하셨나요? 정확히 입력해주세요!")
