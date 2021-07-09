@@ -58,7 +58,7 @@ def subwayGamestart(player, player_name, startplayer):
     ans_list = []
     while True:
         turn = turn % len(member)
-        if turn == 3:
+        if turn == member.index(player_name):
             while True:
                 print("{0}호선에 해당하는 역을 말하세요! ex)xx역".format(rail_num))
                 ans = input("{0} : ".format(player_name))
