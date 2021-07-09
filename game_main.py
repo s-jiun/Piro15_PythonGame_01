@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import random
 from difflib import SequenceMatcher
+import subway
 
 
 class InputError(Exception):
@@ -88,7 +89,7 @@ while True:
     print("1. 가수 맞추기")
     print("2. 369 게임")
     print("3. 블랙잭 게임")
-    print("지하철 게임")
+    print("4. 지하철 게임")
     print()
     if currentPlayer == turn[0]:
         choice = int(input("당신의 차례입니다. 게임을 골라주세요 : "))
@@ -98,8 +99,8 @@ while True:
     if choice == 1:
         header = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
-        req = requests.get('https://www.melon.com/chart/week/index.htm',
-                           headers=header)
+        req = requests.get(
+            'https://www.melon.com/chart/week/index.htm', headers=header)
         html = req.text
         parse = BeautifulSoup(html, 'html.parser')
 
@@ -170,12 +171,225 @@ while True:
             print("모두 한 잔 해~")
         Turn(currentPlayer)
         PrintState()
+        continue
 
     elif choice == 2:
+        def mini_369(player):
+            num = 1
+            final = 0
+            playerList_s = []
+            for p in player.keys():
+                playerList_s.append(player[p][0])
+            print('369게임 시작!')
+            while True:
+                for i in range(len(playerList_s)):
+
+                    choice = random.randint(1, 2)
+                    count = 0
+                    count += str(num).count('3')
+                    count += str(num).count('6')
+                    count += str(num).count('9')
+
+                    if(playerList_s[i] == playerName):  # 내 차례!!
+                        mychoice = input('{} : '.format(playerName))
+                        if count == 0 and int(mychoice) == num:
+                            num += 1
+                            break
+                        elif count == 0 and int(mychoice) != num:
+                            loser = playerList_s[i]
+                            final = 1
+                            break
+                        elif count >= 1 and mychoice.count('짝') == count:
+                            num += 1
+                            break
+                        else:
+                            loser = playerList_s[i]
+                            final = 1
+                            break
+                    else:  # 다른 사람 차례
+                        if count == 0:
+                            print(playerList_s[i], ': ', num)
+                        else:
+                            print(playerList_s[i], ': ', '짝!'*choice)
+                            if choice != count:
+                                final = 1
+                                loser = playerList_s[i]
+                                break
+                    num += 1
+                if final == 1:
+                    break
+            print(loser, ' 벌주 당첨!')
+            return loser
+        winner4 = []
+
+        for p in player:
+            if player[p][1] == 'W':
+                winner4.append(player[p][0])
+            else:
+                continue
+
+        if len(winner4) > 0:
+            for i in range(len(winner4)):
+                print(winner4[i], end='')
+            print(" 빼고 한 잔 해~")
+        else:
+            print("모두 한 잔 해~")
+        Turn(currentPlayer)
+        PrintState()
         continue
     elif choice == 3:
+        def card_value(card):
+            if card in ('J', 'Q', 'K'):
+                return int(10)
+            elif card in ('2', '3', '4', '5', '6', '7', '8', '9', '10'):
+                return int(card)
+            elif card == 'Ace':
+                return int(1)
+        card_deck = ['Ace', '2', '3', '4', '5',
+                     '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+        playing_card = {}
+        blackjack_result = []
+        player[4] = Me
+        winner3 = []
+
+        def blackjack_own():
+            while True:
+                try:
+                    card_num = input("➤2~4 중 플레이하길 원하는 카드의 개수를 선택해주세요 : ")
+                    if not card_num.isdigit():
+                        raise InputError
+                    if int(card_num) != 2 and int(card_num) != 3 and int(card_num) != 4:
+                        raise InputError
+                except InputError as e:
+                    print(e)
+                else:
+                    # 각 플레이어에게 카드 분배
+                    card_num = int(card_num)
+                    print("카드 {0}장으로 플레이합니다.".format(card_num))
+                    for p in player.keys():
+                        playing_card[player[p][0]] = random.sample(
+                            card_deck, card_num)
+                        # 리스트에 있는 숫자들을 꺼내서 보여주고 싶은데 제 능력 밖입니다...그냥 리스트 자체로 출력합니다..
+                        print("♠{0}(이)가 뽑은 카드는 {1}입니다.".format(
+                            player[p][0], playing_card[player[p][0]]))
+                        sum_of_card = 0
+                        # 각 플레이어의 카드 합 구하기
+                        for i in range(card_num):
+                            sum_of_card += card_value(
+                                playing_card[player[p][0]][i])
+                        # 카드 합을 딕셔너리에 추가
+                        playing_card[player[p][0]].append(sum_of_card)
+                        # 카드 합을 리스트에 추가(후에 21에 가장 가까운 수를 찾기 위해 필요)
+                        blackjack_result.append(sum_of_card)
+                        print("♣{0}의 카드 숫자의 합은 {1}입니다.".format(
+                            player[p][0], playing_card[player[p][0]][card_num]))
+                        if sum_of_card > 21:
+                            print("아 21이 넘었네요ㅠ 아쉽게 탈락!")
+                        elif sum_of_card == 21:
+                            print("와우! 블랙잭!꒰໓ ♥ ໕꒱")
+                        print("\n")
+
+                    for i in playing_card.keys():
+                        # 카드 합이 21이 넘을 경우 blackjack_result 리스트에서 제거
+                        if playing_card[i][card_num] > 21:
+                            blackjack_result.remove(playing_card[i][card_num])
+                    # 모든 플레이어의 카드 숫자 합이 21이 넘을 경우 다시 시작
+                    if len(blackjack_result) == 0:
+                        print("모든 참가자의 카드 숫자 합이 21이 넘어 다시 시작합니다! 렛츠기릿.")
+                        playing_card.clear()
+                        continue
+                    # 이상이 없을 경우 우승자 결정. 공동 우승 가능.
+                    else:
+                        blackjack_result.sort(reverse=True)
+                        for p in playing_card.keys():
+                            if playing_card[p][card_num] == blackjack_result[0]:
+                                print("❀❀❀❀❀{0}(이)가 숫자 합 {1}으로 이겼습니다!❀❀❀❀❀".format(
+                                    p, blackjack_result[0]))
+                                for m in player.keys():
+                                    if player[m][0] == p:
+                                        player[m][1] = 'W'
+                        # player 딕셔너리에 넣었던 playerName 삭제
+                        Me = player[4]
+                        del player[4]
+                        print("게임 종료!")
+
+        def blackjack_player():
+            while True:
+                card_num = random.randint(2, 4)
+                # 각 플레이어에게 카드 분배
+                card_num = int(card_num)
+                print("카드 {0}장으로 플레이합니다.".format(card_num))
+                for p in player.keys():
+                    playing_card[player[p][0]] = random.sample(
+                        card_deck, card_num)
+                    # 리스트에 있는 숫자들을 꺼내서 보여주고 싶은데 제 능력 밖입니다...그냥 리스트 자체로 출력합니다..
+                    print("♠{0}(이)가 뽑은 카드는 {1}입니다.".format(
+                        player[p][0], playing_card[player[p][0]]))
+                    sum_of_card = 0
+                    # 각 플레이어의 카드 합 구하기
+                    for i in range(card_num):
+                        sum_of_card += card_value(
+                            playing_card[player[p][0]][i])
+                    # 카드 합을 딕셔너리에 추가
+                    playing_card[player[p][0]].append(sum_of_card)
+                    # 카드 합을 리스트에 추가(후에 21에 가장 가까운 수를 찾기 위해 필요)
+                    blackjack_result.append(sum_of_card)
+                    print("♣{0}의 카드 숫자의 합은 {1}입니다.".format(
+                        player[p][0], playing_card[player[p][0]][card_num]))
+                    if sum_of_card > 21:
+                        print("아 21이 넘었네요ㅠ 아쉽게 탈락!")
+                    elif sum_of_card == 21:
+                        print("와우! 블랙잭!꒰໓ ♥ ໕꒱")
+                    print("\n")
+
+                for i in playing_card.keys():
+                    # 카드 합이 21이 넘을 경우 blackjack_result 리스트에서 제거
+                    if playing_card[i][card_num] > 21:
+                        blackjack_result.remove(playing_card[i][card_num])
+                # 모든 플레이어의 카드 숫자 합이 21이 넘을 경우 다시 시작
+                if len(blackjack_result) == 0:
+                    print("모든 참가자의 카드 숫자 합이 21이 넘어 다시 시작합니다! 렛츠기릿.")
+                    playing_card.clear()
+                    continue
+                # 이상이 없을 경우 우승자 결정. 공동 우승 가능.
+                else:
+                    blackjack_result.sort(reverse=True)
+                    for p in playing_card.keys():
+                        if playing_card[p][card_num] == blackjack_result[0]:
+                            print("❀❀❀❀❀{0}(이)가 숫자 합 {1}으로 이겼습니다!❀❀❀❀❀".format(
+                                p, blackjack_result[0]))
+                            for m in player.keys():
+                                if player[m][0] == p:
+                                    player[m][1] = 'W'
+                    # player 딕셔너리에 넣었던 playerName 삭제
+                    Me = player[4]
+                    del player[4]
+                    print("게임 종료!")
+        for p in player:
+            if player[p][1] == 'W':
+                winner3.append(player[p][0])
+            else:
+                continue
+
+        if len(winner3) > 0:
+            for i in range(len(winner3)):
+                print(winner3[i], end='')
+            print(" 빼고 한 잔 해~")
+        else:
+            print("모두 한 잔 해~")
+        Turn(currentPlayer)
+        PrintState()
         continue
     elif choice == 4:
+        loser = subway.subwayGamestart(
+            player, playerName, startplayer=currentPlayer)
+        print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser))
+        for p in player.keys():
+            if loser in player[p]:
+                player[p][2] -= 1
+        Turn(currentPlayer)
+        PrintState()
+
         continue
     else:
         raise InputError
