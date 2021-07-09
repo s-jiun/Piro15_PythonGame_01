@@ -1,59 +1,70 @@
 import random
-def mini_369(playerList):
+def mini_369(player):
     num=1
     final=0
+    playerList=[]
+    for p in player.keys():
+        playerList.append(player[p][0])
     print('369게임 시작!')
     while True:
         for i in range(len(playerList)):
-            choice=random.randint(1,2)
-            count=0
-            count+=str(num).count('3')
+
+            choice = random.randint(1, 2)
+            count = 0
+            count += str(num).count('3')
             count += str(num).count('6')
             count += str(num).count('9')
 
-            if count==0:
-                print(playerList[i],': ',num)
-            else:
-                print(playerList[i],': ','짝!'*choice)
-                if choice!=count:
-                    print(playerList[i],' 벌주 당첨!')
-                    final=1
+            if(playerList[i]==playerName):  #내 차례!!
+                mychoice=input('{} : '.format(playerName))
+                if count==0 and int(mychoice)==num:
+                    num+=1
                     break
+                elif count==0 and int(mychoice)!=num:
+                    loser=playerList[i]
+                    final = 1
+                    break
+                elif count>=1 and mychoice.count('짝')==count:
+                    num+=1
+                    break
+                else:
+                    loser = playerList[i]
+                    final = 1
+                    break
+            else:   #다른 사람 차례
+                if count==0:
+                    print(playerList[i],': ',num)
+                else:
+                    print(playerList[i],': ','짝!'*choice)
+                    if choice!=count:
+                        final=1
+                        loser=playerList[i]
+                        break
             num+=1
         if final==1:
             break
+    print(loser, ' 벌주 당첨!')
+    return loser
 
-
-
-#def getStatus():
-
-playerInfo = {"성은":0,"민지":0,"건모":0,"지운":0}  #모든 플레이어 정보
-AllPlayers=["성은","민지","건모","지운"]    #모든 플레이어 이름
-playerList=[]   #현재 함께 게임 할 플레이어 목록
+playerList = [{'player1':["민지",'L', 0]},{'player1':["민지", 'L', 0], 'player2':["지운", 'L', 0]}, {'player1':["민지", 'L', 0], 'player2':["지운", 'L', 0], 'player3':["성은", 'L', 0]}]
 
 playerName = input("본인의 이름은 :")
 drinks = int(input("본인의 주량은?:"))
 
-playerList.append(playerName)   #자신의 이름을 현재 게임할 플레이어 목록의 첫번째 요소로 추가
-me=playerList[0]
-playerInfo[me]=drinks   #자신의 주량 설정
-
-print(playerList, playerInfo)
+drinks *= 2
 
 playerNum = int(input("몇 명과 대결을 하시겠어요? (사회적 거리두기로 인해서 최대 3명을 초대할 수 있습니다) :"))
 
-for i in range(0,playerNum):
-    if AllPlayers[i]!=me and AllPlayers[i] not in playerList:
-        playerList.append(AllPlayers[i])    #나를 제외한 사람중에서 원하는 만큼 현재 게임 플레이어 목록에 추가
-    else:
-        playerList.append(AllPlayers[i+1])
+player = playerList[playerNum - 1]
+print(player)
+for p in player.keys():
+    player[p][2] = drinks
 
-for i in range(1,len(playerList)):
-    playerInfo[playerList[i]]=random.randint(2,6)   #나를 제외한 플레이어의 주량 랜덤 설정
-
-print(playerList, playerInfo)
-
-mini_369(playerList)
+loser_369=mini_369(player)
+print("{0}님이 졌습니다! {0}님이 벌주 한잔을 먹게 됩니다.".format(loser_369))
+for p in player.keys():
+        if loser_369 in player[p]:
+            player[p][2] -= 1
 
 
 
